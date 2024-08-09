@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koku sınıflandırıcı</title>
+    <script>
+        function fetchPrediction() {
+            fetch('/generate_features', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('result').innerText = 'Error: ' + data.error;
+                    } else {
+                        document.getElementById('result').innerText = 'Class: ' + data.class_name;
+                        document.getElementById('image').src = '/static/' + data.image_name;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>Koku sınıflandırıcı</h1>
+    <button onclick="fetchPrediction()">Koku Algıla</button>
+    <div id="result"></div>
+    <img id="image" src="" alt="" style="display: block; margin-top: 20px;">
+</body>
+</html>
